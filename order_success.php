@@ -1,5 +1,7 @@
 <?php
+session_start();
 $order_id = $_GET['order_id'] ?? null;
+include '../config.php';
 ?>
 
 <!DOCTYPE html>

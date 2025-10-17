@@ -1,15 +1,24 @@
 <?php
 session_start();
-
+include '../config.php';
 // بررسی سبد خرید
 $cart = $_SESSION['cart'] ?? [];
 
 if (empty($cart)) {
-    header("Location: ../public/cart.php");
+    header("Location: cart.php");
     exit;
 }
 ?>
-<main>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسویه حساب</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.rtl.min.css">
+</head>
+<body class="container pt-5">
+
     <h3 class="mb-4">تسویه حساب</h3>
 
     <form action="order_process.php" method="post">
@@ -54,40 +63,12 @@ if (empty($cart)) {
                 <strong><?= number_format($total) ?> تومان</strong>
             </li>
         </ul>
-		<form id="checkout-form" method="post">
-			<button type="submit" class="btn btn-success">ثبت سفارش</button>
-		</form>
+
+        <button type="submit" class="btn btn-success">ثبت سفارش</button>
         <a href="cart.php" class="btn btn-secondary">بازگشت به سبد خرید</a>
     </form>
-</main>
-<script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#checkout-form').submit(function(e) {
-        e.preventDefault(); // جلوگیری از ارسال فرم به صورت سنتی
 
-        const formData = $(this).serialize(); // جمع‌آوری اطلاعات فرم
-
-        $.post("/baharestan/operator/order_process.php", formData, function(response) {
-            $('#order-result').html(`
-                <div class="alert alert-success">
-                    ✅ سفارش شما با موفقیت ثبت شد!
-                </div>
-            `);
-
-            // در صورت نیاز: سبد خرید را پاک کنیم
-            // یا به صفحه موفقیت برویم
-            // window.location.href = "order_success.php";
-
-        }).fail(function(xhr) {
-            $('#order-result').html(`
-                <div class="alert alert-danger">
-                    ⛔ خطا در ثبت سفارش: ` + xhr.responseText + `
-                </div>
-            `);
-        });
-    });
-});
-</script>
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
